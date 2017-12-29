@@ -1,0 +1,53 @@
+---
+title: "Shiny Presentation"
+author: "Mat Dac"
+date: "December 29, 2017"
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(MASS)
+```
+
+## Introduction
+
+The inteactive shiny application is running at <https://matdacnev.shinyapps.io/shinyAssignment/>.
+
+When the user clicks on the check box, the app will fit either an OLS or a robust regression to the Iris data points shown in the plot.
+
+The robust regression is less sensitive to outliers and is preferred if the data are non-normal.
+
+## Coefficients
+
+The 2 regressions are fitted on the server side of the shiny app:
+
+```{r fit, echo = TRUE}
+X = iris$Sepal.Width; Y = iris$Petal.Width
+lm.fit = lm(Y ~ X, data=iris)
+rlm.fit = rlm(Y ~ X, data=iris)
+```
+
+The coefficients for the OLS and robust regressions are the following:
+
+```{r coef, echo = TRUE}
+coef(lm.fit)
+coef(rlm.fit)
+```
+
+## Plot
+
+In this slide, the 2 regression lines are shown. But in the shiny app, the user can choose which line to show.
+
+```{r plot, echo = TRUE}
+plot(X, Y, col=iris$Species, xlab="Sepal Width", ylab="Petal Width", main="Iris Data")
+abline(lm.fit, lty=1)
+abline(rlm.fit, lty=2)
+legend("topright", c("OLS", "Robust"), lty=c(1, 2))
+```
+
+## Conclusion
+
+Shiny applications are great to interact with data.
+
+
